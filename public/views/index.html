@@ -1,0 +1,535 @@
+
+<div ng-controller="homeCntrl">
+
+	<div id="business_profile" ng-show="global.user.user_type!='admin'">
+
+		<div class="passcode" ng-show="!global.user.password && !global.user.facebook">
+			<div class="panel-body">
+                <form role="form" method="POST" ng-submit="setPassword()">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <input type="password" ng-model="password" id="password" class="form-control input-sm" placeholder="Password" required />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <input type="password" ng-model="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" required />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+
+                            <div ng-show="!password_match" style="font-size: 13px;" class="alert alert-danger" role="alert">Please Confirm Your Password Correctly</div>
+                            <div ng-show="!password_condition_length" style="font-size: 13px;" class="alert alert-danger" role="alert">Your Password Length Should At Least 6</div>
+                            <div ng-show="!password_condition_number" style="font-size: 13px;" class="alert alert-danger" role="alert">Your Password Should Have At Least 1 Number</div>
+                            <div ng-show="!password_condition_alpha" style="font-size: 13px;" class="alert alert-danger" role="alert">Your Password Should Have At Least 1 Character</div>
+
+                        </div>
+
+                    </div>
+             
+                    <input type="submit" value="Set Passcode" class="btn btn-lg btn-info btn-block">
+
+                    
+                </form>
+            </div>
+
+		</div>
+
+
+	    <div class="bg-business-profile" ng-show="global.user.password || global.user.facebook">
+
+		      
+	      	<div class="container">
+
+	      
+	            <header class="bp-header">
+	                <div class="row">
+	                    <div class="col-lg-5 col-md-4 col-sm-3 col-xs-12">
+	                        <a href="#" class="profile-txtlogo">{{global.user.first_name}} {{global.user.last_name}} </a>
+	                    </div>
+	                    <div class="col-lg-7 col-md-8 col-sm-9 col-xs-12">
+	                        <p class="date-info">
+	                            <span><strong>Member Since {{global.user.joining_date | date:'longDate'}}</strong></span>
+	                            
+	                        </p>
+	                    </div>
+	                </div>
+	            </header><!--end header-->
+	            
+
+	            
+	            <section id="banner">
+	                
+	                <div class="row">
+	                	<div class="editProfile" ng-show="edit_profile">
+							<div class="panel-body">
+				                <form role="form" method="POST" enctype="multipart/form-data" ng-submit="editProfileDone()">
+
+				                    <div class="row">
+			                            <div class="col-xs-6 col-sm-6 col-md-6">
+			                                <div class="form-group">
+			                            		<input type="text" ng-model="global.user.first_name" class="form-control input-sm" placeholder="First Name" required />
+			                                </div>
+			                            </div>
+			                            <div class="col-xs-6 col-sm-6 col-md-6">
+			                                <div class="form-group">
+			                            		<input type="text" ng-model="global.user.last_name" class="form-control input-sm" placeholder="Last Name"  />
+			                                </div>
+			                            </div>
+
+			                        </div>
+
+			                        <div class="row">
+
+			                            <div class="col-xs-12 col-sm-12 col-md-12">
+			                                <div class="form-group">
+			                            		<input type="text" ng-model="global.user.user_name" class="form-control input-sm" placeholder="User Name" required />
+			                                </div>
+			                            </div>
+			                 
+			                        </div>
+			                        <div ng-show="user_name_exist" style="font-size: 13px;" class="alert alert-danger" role="alert">User name already exist.</div>
+
+
+			                        <div class="form-group">
+			                            <input type="email" ng-model="global.user.email" id="email" class="form-control input-sm" placeholder="Email Address" required />
+			                        </div>
+			                        <div ng-show="email_exist" style="font-size: 13px;" class="alert alert-danger" role="alert">Email address already exist.</div>
+
+			                        <div class="form-group">
+			                        	<p style="font-size: 15px;">Choose Banner Picture</p>
+			                            <input type="file" ng-model="file" class="form-control input-sm" file-change="onFilePISelect($event,files)"accept="image/*" />
+
+			                        </div>
+
+			                        <div class="form-group">
+			                        	<p style="font-size: 15px;">Choose Profile Picture</p>
+			                            <input type="file" ng-model="profile_image" class="form-control input-sm" file-change="onFilePCSelect($event,files)"accept="image/*" />
+
+			                        </div>
+				             
+				                    <input type="submit" value="Save" class="btn btn-lg btn-info btn-block">
+
+				                    
+				                </form>
+				            </div>
+
+						</div>
+	                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-hide="edit_profile">
+	                        <ul class="bp-slider banner">
+	                            <li>
+	                                <img src="images/BAK-image-bar1.jpg" alt="banner" height="250" width="100%" />
+
+	                                <form role="form" method="POST" enctype="multipart/form-data">
+	                        			<input type="file" ng-model="file" file-change="onCoverPicChnage($event,files)"accept="image/*" height="250" width="100%">
+	                        			<input type="hidden" ng-model="global.user.user_name"/>
+	                        	 		<input type="hidden" ng-model="global.user.email" id="email"/>
+	                        	 		<input type="hidden" ng-model="global.user.first_name"/>
+	                        	 		<input type="hidden" ng-model="global.user.last_name"/>
+	                        		</form>
+
+	                                <a href="" class="edit-profile" ng-click="toggleEdit()"><img src="../images/compose.png" height="24" width="24"></a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                </div><!--end slider-->
+	                
+	                <div class="row bp-menu-block" >
+	                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 profile-roundlogo">
+	                        <!--<a href="#">-->
+	                        <img src="images/BAK-testimonial-image.jpg" height="70" width="140"/> <!--images/bp-logo.png-->
+	                        <form role="form" method="POST" enctype="multipart/form-data">
+	                        	<input type="file" ng-model="profile_image" file-change="onProfilePicChnage($event,files)"accept="image/*">
+	                        	<input type="hidden" ng-model="global.user.user_name"/>
+	                        	 <input type="hidden" ng-model="global.user.email" id="email"/>
+	                        	 <input type="hidden" ng-model="global.user.first_name"/>
+	                        	 <input type="hidden" ng-model="global.user.last_name"/>
+	                        </form>
+	                        <!--</a>-->
+	                    </div>
+	                    
+	                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+	                        <ul class="bp-menu">
+	                            <li><a href="#">About</a></li>
+	                            <li><a href="#">Videos</a></li>
+	                            <li><a href="#">Message</a></li>
+	                            <!--<li><a href="#">Subscriber</a></li>-->
+	                        </ul>                	
+	                    </div>
+	                    
+	                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+	                        <div class="bp-social pull-right">
+	                            <a href="#"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span></a>
+	                            <a href="#"><img src="images/icon-socail.png" alt="icon-social" width="30" /></a>
+	                        </div>
+	                        
+	                    </div>
+	    
+	                </div><!--end bp-menu -->
+	                
+	                
+	            </section><!--end banner-->
+  
+	        </div>
+	    
+	    </div>	
+	    
+	  
+
+	</div>
+
+
+
+
+	<!--start of admin part-->
+	<div class="container-fluid main-container" style="margin-top: 2%; margin-bottom: 20%;" ng-show="global.user.user_type=='admin'" ng-init="getallUser()">
+		
+	    <div class="col-md-3 sidebar">
+	        <ul class="nav nav-pills nav-stacked">
+	        	<li class="active"><a href="#">Dashboard</a></li>
+	        	<li><a href="#" onclick="test()">Statistics</a></li>
+	            <li><a href="#">My Links</a></li>
+	            <li><a href="#">Pay Me</a></li>
+	            <li><a href="#">Profile</a></li>
+
+	            <!-- <li><a href="#" ng-click="itunesInfo()">Manage Category</a></li> -->
+	            
+	        </ul>
+	    </div>
+	    
+	    <div class="col-md-9 content">
+	    	<div class="col-md-12" id="shown" style="display:none;">
+	    		
+				<!-- <div style="width: 50%">
+					<canvas id="canvas" height="450" width="600"></canvas>
+				</div> -->
+				Clicks By Day :
+				<div style="width: 50%;background:#fff;">
+					<canvas id="canvas1" height="450" width="600"></canvas>
+				</div>
+				
+				<!-- Maps 
+				<div id="mapdiv" style="width: 100%; height: 500px;"></div> -->
+
+				Devices
+				<div id="chartContainer1" style="height: 300px; width: 100%;"></div>
+
+				Browsers
+				<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+				Operating System
+				<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+
+				Referrer Domains
+				<div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+
+			</div>
+	    </div>
+
+
+	<!--end of admin part-->
+	</div>
+
+
+<script type="text/javascript">
+var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+
+	// var barChartData = {
+	// 	labels : ["January","February","March","April","May","June","July"],
+	// 	datasets : [
+	// 		{
+	// 			fillColor : "rgba(220,220,220,0.5)",
+	// 			strokeColor : "rgba(220,220,220,0.8)",
+	// 			highlightFill: "rgba(220,220,220,0.75)",
+	// 			highlightStroke: "rgba(220,220,220,1)",
+	// 			data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+	// 		},
+	// 		{
+	// 			fillColor : "rgba(151,187,205,0.5)",
+	// 			strokeColor : "rgba(151,187,205,0.8)",
+	// 			highlightFill : "rgba(151,187,205,0.75)",
+	// 			highlightStroke : "rgba(151,187,205,1)",
+	// 			data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+	// 		}
+	// 	]
+
+	// }
+
+			var lineChartData = {
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+				{
+					label: "My First dataset",
+					fillColor : "rgba(220,220,220,0.2)",
+					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(220,220,220,1)",
+					data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+				},
+				{
+					label: "My Second dataset",
+					fillColor : "rgba(151,187,205,0.2)",
+					strokeColor : "rgba(151,187,205,1)",
+					pointColor : "rgba(151,187,205,1)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(151,187,205,1)",
+					data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+				}
+			]
+
+		}
+
+
+
+var chart = new CanvasJS.Chart("chartContainer",
+	{
+		title:{
+			//text: "How my time is spent in a week?",
+			fontFamily: "arial black"
+		},
+                animationEnabled: true,
+		legend: {
+			verticalAlign: "bottom",
+			horizontalAlign: "center"
+		},
+		theme: "theme2",
+		data: [
+		{        
+			type: "pie",
+			indexLabelFontFamily: "Garamond",       
+			indexLabelFontSize: 20,
+			indexLabelFontWeight: "bold",
+			startAngle:0,
+			indexLabelFontColor: "MistyRose",       
+			indexLabelLineColor: "darkgrey", 
+			indexLabelPlacement: "inside", 
+			toolTipContent: "{name}: {y}hrs",
+			showInLegend: true,
+			indexLabel: "#percent%", 
+			dataPoints: [
+				{  y: 12, name: "Total Fat", legendMarkerType: "triangle"},
+				{  y: 34, name: "Total Calories", legendMarkerType: "square"},
+				{  y: 32, name: "Total Carbs", legendMarkerType: "circle"}
+			]
+		}
+		]
+	});
+
+var chart1 = new CanvasJS.Chart("chartContainer1",
+	{
+		title:{
+			//text: "How my time is spent in a week?",
+			fontFamily: "arial black"
+		},
+                animationEnabled: true,
+		legend: {
+			verticalAlign: "bottom",
+			horizontalAlign: "center"
+		},
+		theme: "theme2",
+		data: [
+		{        
+			type: "pie",
+			indexLabelFontFamily: "Garamond",       
+			indexLabelFontSize: 20,
+			indexLabelFontWeight: "bold",
+			startAngle:0,
+			indexLabelFontColor: "MistyRose",       
+			indexLabelLineColor: "darkgrey", 
+			indexLabelPlacement: "inside", 
+			toolTipContent: "{name}: {y}hrs",
+			showInLegend: true,
+			indexLabel: "#percent%", 
+			dataPoints: [
+				{  y: 12, name: "Total Fat", legendMarkerType: "triangle"},
+				{  y: 34, name: "Total Calories", legendMarkerType: "square"},
+				{  y: 32, name: "Total Carbs", legendMarkerType: "circle"}
+			]
+		}
+		]
+	});
+
+
+var chart2 = new CanvasJS.Chart("chartContainer2",
+	{
+		title:{
+			//text: "How my time is spent in a week?",
+			fontFamily: "arial black"
+		},
+                animationEnabled: true,
+		legend: {
+			verticalAlign: "bottom",
+			horizontalAlign: "center"
+		},
+		theme: "theme2",
+		data: [
+		{        
+			type: "pie",
+			indexLabelFontFamily: "Garamond",       
+			indexLabelFontSize: 20,
+			indexLabelFontWeight: "bold",
+			startAngle:0,
+			indexLabelFontColor: "MistyRose",       
+			indexLabelLineColor: "darkgrey", 
+			indexLabelPlacement: "inside", 
+			toolTipContent: "{name}: {y}hrs",
+			showInLegend: true,
+			indexLabel: "#percent%", 
+			dataPoints: [
+				{  y: 12, name: "Total Fat", legendMarkerType: "triangle"},
+				{  y: 34, name: "Total Calories", legendMarkerType: "square"},
+				{  y: 32, name: "Total Carbs", legendMarkerType: "circle"}
+			]
+		}
+		]
+	});
+
+
+
+var chart3 = new CanvasJS.Chart("chartContainer3",
+	{
+		title:{
+			//text: "How my time is spent in a week?",
+			fontFamily: "arial black"
+		},
+                animationEnabled: true,
+		legend: {
+			verticalAlign: "bottom",
+			horizontalAlign: "center"
+		},
+		theme: "theme2",
+		data: [
+		{        
+			type: "pie",
+			indexLabelFontFamily: "Garamond",       
+			indexLabelFontSize: 20,
+			indexLabelFontWeight: "bold",
+			startAngle:0,
+			indexLabelFontColor: "MistyRose",       
+			indexLabelLineColor: "darkgrey", 
+			indexLabelPlacement: "inside", 
+			toolTipContent: "{name}: {y}hrs",
+			showInLegend: true,
+			indexLabel: "#percent%", 
+			dataPoints: [
+				{  y: 12, name: "Total Fat", legendMarkerType: "triangle"},
+				{  y: 34, name: "Total Calories", legendMarkerType: "square"},
+				{  y: 32, name: "Total Carbs", legendMarkerType: "circle"}
+			]
+		}
+		]
+	});
+	function test(){
+		$("#shown").show();
+		// var ctx = document.getElementById("canvas").getContext("2d");
+		// window.myBar = new Chart(ctx).Bar(barChartData, {
+		// 	responsive : true
+		// });
+
+		var dtx = document.getElementById("canvas1").getContext("2d");
+		window.myLine = new Chart(dtx).Line(lineChartData, {
+			responsive: true
+		});
+
+		chart.render();
+		chart1.render();
+		chart2.render();
+		chart3.render();
+
+
+	}
+</script>
+
+
+
+
+		<script>
+			var map;
+
+			AmCharts.ready(function() {
+				var map;
+
+				map = new AmCharts.AmMap();
+				map.handDrawn = true;
+
+				map.dragMap = false;
+				map.color = "#FFFFFF";
+
+				map.areasSettings = {
+					autoZoom: false,
+					rollOverOutlineColor: "#FFFFFF",
+					selectedColor: "#FFFFFF",
+					rollOverColor: "#FFFFFF",
+					outlineAlpha: 1,
+					outlineColor: "#FFFFFF",
+					outlineThickness: 1,
+					color: "#000000"
+				};
+
+				map.dataProvider = {
+					mapVar: AmCharts.maps.continentsLow,
+
+					areas: [{
+						"id": "africa",
+							"title": "Africa",
+							"pattern": {
+							"url": "patterns/white/pattern1.png",
+							width: 4,
+							height: 4
+						}
+					}, {
+						"id": "asia",
+							"title": "Asia",
+							"pattern": {
+							"url": "patterns/white/pattern2.png",
+							width: 4,
+							height: 4
+						}
+					}, {
+						"id": "australia",
+							"title": "Australia",
+							"pattern": {
+							"url": "patterns/white/pattern3.png",
+							width: 4,
+							height: 4
+						}
+					}, {
+						"id": "europe",
+							"title": "Europe",
+							"pattern": {
+							"url": "patterns/white/pattern4.png",
+							width: 4,
+							height: 4
+						}
+					}, {
+						"id": "north_america",
+							"title": "North America",
+							"pattern": {
+							"url": "patterns/white/pattern5.png",
+							width: 4,
+							height: 4
+						}
+					}, {
+						"id": "south_america",
+							"title": "South America",
+							"pattern": {
+							"url": "patterns/white/pattern6.png",
+							width: 4,
+							height: 4
+						}
+					}]
+				};
+				var zoomControl = map.zoomControl;
+				zoomControl.panControlEnabled = false;
+				zoomControl.zoomControlEnabled = false;
+
+				map.write("mapdiv");
+
+			});
+
+        </script>
