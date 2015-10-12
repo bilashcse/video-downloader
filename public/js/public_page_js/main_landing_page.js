@@ -17,7 +17,7 @@ angular.module('landingPage.system').controller('landingCtrl', ['$scope','$http'
 			$http({'method' : 'post', url: '/users/grabeYoutube', data: {'url' : $scope.youtube_url}}).
 			success(function(data)
 			{
-
+				console.log(data)
 				if(data.success == false)
 				{
 					$scope.videoUrlUnwanted = true;

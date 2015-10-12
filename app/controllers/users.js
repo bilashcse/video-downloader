@@ -89,11 +89,7 @@ exports.download = function(req, res)
   // res.setHeader("Content-disposition", "attachment; filename=bilashcse.mp4");
 
   var filename = 'public/'+req.query.uri;
-
   var fs = require('fs');
-
-
-
   fs.readFile(filename, function (err, data){
     if (err) return console.log(err);
 
