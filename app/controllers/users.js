@@ -30,7 +30,6 @@ exports.grabeYoutube = function(req,res){
 exports.uploadYoutube = function(req,res, io){
 
     var youtubedl = require('youtube-dl');
-
     var md5 = require('md5');
     var path = require('path');
     var mime = require('mime');
@@ -59,34 +58,11 @@ exports.uploadYoutube = function(req,res, io){
 
     video.on('end', function(){
       console.log("Video Saved Successfully")
-      //console.log(vdo_path.replace('public/', ''))
-
       var file = vdo_path;
-
       var filename = path.basename(file);
       var mimetype = mime.lookup(file);
 
-      // res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-      // res.setHeader('Content-type', mimetype);
-      res.download(vdo_path.replace('public/', ''));
-
-      // // var filestream = fs.createReadStream(file);
-      // // filestream.pipe(res);
-      // res.download(vdo_path,function(err){
-      //     if(err)
-      //     {
-      //         console.log("Error in download");
-      //     }
-      //     else
-      //     {
-      //         console.log("Download Successful");
       res.send({'video': vdo_path.replace('public/', '')});
-      //     }
-
-      // });
-      
-
-
 
     });
 
@@ -95,8 +71,6 @@ exports.uploadYoutube = function(req,res, io){
 
     video.on('data', function(data) {
         pos += data.length;
-        // `size` should not be 0 here.
-
         if (size) {
 
             var percent = Math.floor(pos / size * 100);
@@ -105,6 +79,34 @@ exports.uploadYoutube = function(req,res, io){
 
         }
     });
+
+
+}
+
+exports.download = function(req, res)
+{
+  // res.setHeader("Content-type", "video/mp4");
+  // res.setHeader("Content-disposition", "attachment; filename=bilashcse.mp4");
+
+  var filename = 'public/'+req.query.uri;
+
+  var fs = require('fs');
+
+
+
+  fs.readFile(filename, function (err, data){
+    if (err) return console.log(err);
+
+    console.log(data)
+    res.writeHead(206,{
+      "Content-type" : "video/mp4",
+      "Content-length" : data.length,
+      "Content-disposition" : "attachment; filename="+req.query.filename+".mp4"
+    })
+    // return data;
+    res.send(data)
+  });
+
 
 
 }

@@ -50,7 +50,9 @@ angular.module('landingPage.system').controller('landingCtrl', ['$scope','$http'
 				console.error("Youtube Video Download")
 				console.log(data)
 				$scope.downloadLink = data.video;
-				
+
+
+				window.location.href = '/download?uri='+$scope.downloadLink+'&filename='+$scope.youtube._filename;
 
 				
 			}).
