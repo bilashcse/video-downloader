@@ -44,6 +44,15 @@ youtubedl.getInfo(url, function(err, info) {
 
 ```
 
+## Setup header for download:
+```javascript
 
+    res.writeHead(206,{
+      "Content-type" : "video/mp4",
+      "Content-length" : data.length,
+      "Content-disposition" : "attachment; filename="+req.query.filename+".mp4"
+    });
+
+```
 
 
