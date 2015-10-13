@@ -7,11 +7,14 @@
     <title>Downloader</title>
     
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <link rel="stylesheet" type="text/css" href="css/font_awesome.css" />
 
     <!-- google font -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'> -->
    
     
 
@@ -20,13 +23,11 @@
 
 <body ng-app="landingPage" ng-controller="landingCtrl">
  
-      <nav class="navbar navbar-default navbar-fixed-top">
+      <!-- <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
           <a class="navbar-brand" href="#">Video Downloader</a>
         </div>
-        <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
         <div id="navbar">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
@@ -35,7 +36,7 @@
 
           </ul>
 
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
 
@@ -75,22 +76,142 @@
                    <h4> Title  : {{youtube.title}} </h4>
                     <h4>Duration : {{youtube.duration}}</h4>
                     <h4>View : {{youtube.view_count}}</h4>
-                    <!-- <button class="btn btn-success">Download Link</button> -->
-                    <!-- <a href="{{downloadLink}}" class="btn btn-success" value="Download Link"/> -->
                 </div>
 
             </div>
         </div>
-    </div>
+    </div> -->
+        <div class="container"> 
+            <header>
+                <h1>Save Video <span>Download video easily by using this site</span></h1>   
+            </header>
+            
+            <div class="main clearfix">
+                <nav id="menu" class="nav">                 
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <i aria-hidden="true" class="icon-home"></i>
+                                </span>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon"> 
+                                    <i aria-hidden="true" class="icon-services"></i>
+                                </span>
+                                <span>Updates</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <i aria-hidden="true" class="icon-portfolio"></i>
+                                </span>
+                                <span>About</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <i aria-hidden="true" class="icon-contact"></i>
+                                </span>
+                                <span>Contact</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <i aria-hidden="true" class="fa fa-facebook"></i>
+                                </span>
+                                <span>Facebook</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon">
+                                    <i aria-hidden="true" class="icon-youtube"></i>
+                                </span>
+                                <span>Youtube</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+            </div>
+            
+            <div class="main search_area flexsearch">
+                <div class="flexsearch_wrapper">
+                    <form class="flexsearch_form">
+                        <div class="flexsearch-input-wrapper">
+                            <input class="flexsearch_input" ng-model="youtube_url" type="search" placeholder="Please provide the video link">
+                        </div>
+                        <input class="flexsearch_submit" ng-click="grabeYoutube()" type="button" value="&#10140;"/>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="video_area" ng-show="showYTinfo">
+                <video controls>
+                    <source src="mov_bbb.mp4" type="video/mp4"/>
+                </video>
+                <!-- <image ng-src="{{youtube.thumbnail}}" width="300" height="150" /> -->
+                
+                <div class="video_des">
+                    <ul>
+                        <li><h1>Tilte : {{youtube.title}}</b></li>
+                        <li><p>Duration : {{youtube.duration}} sec</p></li>
+                        <li><p>Views : {{youtube.view_count}}</p></li>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+                    </ul>
+                </div>
+                <button type="submit" class="btn pull-left" ng-click="uploadYoutube()">DOWNLOAD</button>
+            </div>
+        </div>
+        
+        <div class="footer_area">
+            <p>Copyright &copy; 2015, Save Video | All Rights Reserved</p>  
+        </div>
+
     <script type="text/javascript" src="/lib/angular/angular.js"></script>
     <script type="text/javascript" src="/js/public_page_js/main_landing_page.js"></script>
-
     <script type="text/javascript" src="/lib/angular-bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+    <script src="/js/modernizr.custom.js"></script>
     
+    <script>
+            //  The function to change the class
+            var changeClass = function (r,className1,className2) {
+                var regex = new RegExp("(?:^|\\s+)" + className1 + "(?:\\s+|$)");
+                if( regex.test(r.className) ) {
+                    r.className = r.className.replace(regex,' '+className2+' ');
+                }
+                else{
+                    r.className = r.className.replace(new RegExp("(?:^|\\s+)" + className2 + "(?:\\s+|$)"),' '+className1+' ');
+                }
+                return r.className;
+            };  
 
+            //  Creating our button in JS for smaller screens
+            var menuElements = document.getElementById('menu');
+            menuElements.insertAdjacentHTML('afterBegin','<button type="button" id="menutoggle" class="navtoogle" aria-hidden="true"><i aria-hidden="true" class="icon-menu"> </i> Menu</button>');
+
+            //  Toggle the class on click to show / hide the menu
+            document.getElementById('menutoggle').onclick = function() {
+                changeClass(this, 'navtoogle active', 'navtoogle');
+            }
+
+            // http://tympanus.net/codrops/2013/05/08/responsive-retina-ready-menu/comment-page-2/#comment-438918
+            document.onclick = function(e) {
+                var mobileButton = document.getElementById('menutoggle'),
+                    buttonStyle =  mobileButton.currentStyle ? mobileButton.currentStyle.display : getComputedStyle(mobileButton, null).display;
+
+                if(buttonStyle === 'block' && e.target !== mobileButton && new RegExp(' ' + 'active' + ' ').test(' ' + mobileButton.className + ' ')) {
+                    changeClass(mobileButton, 'navtoogle active', 'navtoogle');
+                }
+            }
+        </script>
 
 </body>
 </html>
