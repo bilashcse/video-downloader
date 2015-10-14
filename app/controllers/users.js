@@ -18,7 +18,11 @@ exports.grabeYoutube = function(req,res){
             
         else if(info)
         {
-          console.log(info)
+          if(!info.thumbnail)
+          {
+            console.log("No Thumbnail")
+          }
+          console.log("info")
           res.send({success:true, info:info});
         }
             

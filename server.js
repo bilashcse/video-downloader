@@ -21,7 +21,6 @@ var db = mongoose.connect(config.db)
 
 var models_path = __dirname + '/app/models'
 fs.readdirSync(models_path).forEach(function (file) {
-	console.log(models_path+'/'+file);
   require(models_path+'/'+file)
 })
 
@@ -42,6 +41,6 @@ http.listen(port)
 io.set('log level', 2);
 
 
-console.log('Sift Content started on port '+port+" on mode: "+env);
+console.log('Video Downloader started on port '+port+" at mode: "+env);
 logger.init(app, passport, mongoose)
 exports = module.exports = app

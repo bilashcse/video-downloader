@@ -152,18 +152,22 @@
                     </form>
                 </div>
             </div>
+
+            <div class="video_area" ng-show="loading">
+                <img src="img/loading.gif" />
+            </div>
             
             <div class="video_area" ng-show="showYTinfo">
-                <video controls>
+                <!-- <video controls>
                     <source src="mov_bbb.mp4" type="video/mp4"/>
-                </video>
-                <!-- <image ng-src="{{youtube.thumbnail}}" width="300" height="150" /> -->
+                </video> -->
+                <image id="test" ng-src="{{youtube.thumbnail}}" width="300" height="150" />
                 
                 <div class="video_des">
                     <ul>
-                        <li><h1>Tilte : {{youtube.title}}</b></li>
-                        <li><p>Duration : {{youtube.duration}} sec</p></li>
-                        <li><p>Views : {{youtube.view_count}}</p></li>
+                        <li><h3>Tilte : {{youtube.title.substring(0,30)}}</b></l3>
+                        <li ng-if="youtube.duration"><p>Duration : {{youtube.duration}} sec</p></li>
+                        <li ng-if="youtube.view_count"><p>Views : {{youtube.view_count}}</p></li>
 
                     </ul>
                 </div>

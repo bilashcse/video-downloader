@@ -33,6 +33,7 @@ a:hover {
 	text-align: center;
 	font-size: 17px;
 	background:url(../img/header1.jpg) repeat 0 0;
+	top: 0px;
 }
 
 .container > header h1 {
@@ -148,7 +149,7 @@ input:-moz-placeholder {
 	color: #888;
 }
 
-.container video{
+.container #test{
 	float:left;
 	margin-top:0px;
 }
@@ -160,7 +161,9 @@ input:-moz-placeholder {
 	min-height:9em;
 	margin-top:-50px;
 }
-.video_des{}
+.video_des{
+	padding-left: 10px;
+}
 .video_des ul{list-style:none;}
 .video_des li{}
 .btn{

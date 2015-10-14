@@ -9,10 +9,14 @@ angular.module('landingPage.system').controller('landingCtrl', ['$scope','$http'
 
 	$scope.videoUrlUnwanted = false;
 
-
+	$scope.loading = false;
 
 
 	$scope.grabeYoutube = function(){
+
+		$scope.loading = true;
+		$scope.showYTinfo = false;
+		$scope.youtube = "";
 		
 			$http({'method' : 'post', url: '/users/grabeYoutube', data: {'url' : $scope.youtube_url}}).
 			success(function(data)
@@ -20,12 +24,14 @@ angular.module('landingPage.system').controller('landingCtrl', ['$scope','$http'
 				console.log(data)
 				if(data.success == false)
 				{
+
 					$scope.videoUrlUnwanted = true;
 				}
 				else
 				{
 					$scope.youtube = data.info;
 					$scope.showYTinfo = true;
+					$scope.loading = false;
 
 				}
 

@@ -3,12 +3,12 @@ var mongoose = require('mongoose');
  
 var db = mongoose.connection;
  
-db.on('error', function (err) {
-console.log('connection error', err);
-});
-db.once('open', function () {
-console.log('Database was Connected For Shortlink Insertion And Redirecting');
-});
+// db.on('error', function (err) {
+// console.log('connection error', err);
+// });
+// db.once('open', function () {
+// console.log('Database was Connected For Shortlink Insertion And Redirecting');
+// });
  
 var Schema = mongoose.Schema;
 var short_link_schema = new Schema({
