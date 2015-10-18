@@ -125,6 +125,7 @@ a:hover {
 	font-family: 'Helvetica', sans-serif;
 	font-size: 40px;
 	line-height: 60px;
+	outline: none;
 }
 
 .flexsearch_input:focus {
