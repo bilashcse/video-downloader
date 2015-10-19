@@ -9,12 +9,9 @@ module.exports = function (app,passport,auth,io) {
   var users = require('../app/controllers/users');
 
   app.get('/', index.render);
-  // app.post('/users/cancelUpload',users.cancelUpload);
-  app.post('/users/grabeYoutube',users.grabeYoutube);
-
-
+  app.post('/video/grabeYoutube',users.grabeYoutube);
   app.get('/download',users.download);
-  app.post('/users/uploadYoutube',users.uploadYoutube);
+
 
 
 }
