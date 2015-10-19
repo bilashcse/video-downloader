@@ -23,6 +23,7 @@ angular.module('landingPage.system').controller('landingCtrl', ['$scope','$http'
 			{
 				console.log('Download Successfull');
 				$scope.youtube = data.info;
+				$scope.thumb = data.thumb;
 				$scope.downloadLink = data.video;
 				$scope.showYTinfo = true;
 				$scope.loading = false;

@@ -4,13 +4,17 @@ var mongoose = require('mongoose')
   , request = require('request')
   , _ = require("underscore");
 
-
-exports.grabeYoutube = function(req,res){
-
     var youtubedl = require('youtube-dl');
     var md5 = require('md5');
     var path = require('path');
     var mime = require('mime');
+    var ffmpeg = require('fluent-ffmpeg');
+    var probe = require('node-ffprobe');
+    //var fs = require('fs');
+
+exports.grabeYoutube = function(req,res){
+
+
     var uri = req.body.url;
     youtubedl.getInfo(uri, [], function(err, info) {
         if (err)
@@ -43,10 +47,37 @@ exports.grabeYoutube = function(req,res){
 
             video.on('end', function(){
 
-              var file = vdo_path;
-              var filename = path.basename(file);
-              var mimetype = mime.lookup(file);
-              res.send({'video': vdo_path.replace('public/', ''), info: info});
+
+                    probe(vdo_path, function(err, probeData) 
+                    {
+
+                        var proc = new ffmpeg(vdo_path);
+
+                        proc.screenshots({
+                            timestamps: ['50%'],
+                            folder: 'public/img/'+vdo_name,
+                            size: '392x220'
+                        }).on('end', function() {
+                            if(info.thumbnail)
+                            {
+                                console.log('Screenshots taken - 1');
+                                var file = vdo_path;
+                                var filename = path.basename(file);
+                                var mimetype = mime.lookup(file);
+                                res.send({'video': vdo_path.replace('public/', ''), info: info, thumb :info.thumbnail});
+                            }
+                            else{
+                                console.log('Screenshots taken - 2');
+                                var file = vdo_path;
+                                var filename = path.basename(file);
+                                var mimetype = mime.lookup(file);
+                                res.send({'video': vdo_path.replace('public/', ''), info: info, thumb : 'img/'+vdo_name+'/tn.png'});
+                            }
+
+                            
+                        });
+
+                    });
 
             });
 
@@ -73,7 +104,7 @@ exports.grabeYoutube = function(req,res){
 exports.download = function(req, res)
 {
     var filename = 'public/'+req.query.uri;
-    var fs = require('fs');
+
     fs.readFile(filename, function (err, data){
       if (err) return console.log(err);
 
